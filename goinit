@@ -26,7 +26,7 @@ if [ "$git" = "true" ]; then
   # "main" is shorter
   git checkout -b main
 fi
-go mod init example.com/m/v2
+$GOBIN/go mod init example.com/m/v2
 touch main.go
 printf "package main\n\nfunc main() {\n  fmt.Println(\"Alou $name\")\n}" >> main.go
 vim main.go
