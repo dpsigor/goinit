@@ -1,0 +1,32 @@
+#!/bin/sh
+if [ $# -eq 0 ]; then
+  printf "Args: project name\n[ -n NAME ] name to greet\n[ -g ] git repo\n" && return 1;
+fi
+project="$1"
+name="man"
+git="false"
+while [ "$2" != "" ]; do
+  case $2 in
+  -n)
+      shift
+      name=$2
+      ;;
+  -g | --git)
+      git="true"
+      ;;
+  *)
+      printf "Args: project name\n[ -n NAME ] name to greet\n[ -g ] git repo\n" && return 1;
+      ;;
+  esac
+  shift
+done
+mkdir -p -- "$project" && cd -P -- "$project"
+if [ "$git" = "true" ]; then
+  git init
+  # "main" is shorter
+  git checkout -b main
+fi
+go mod init example.com/m/v2
+touch main.go
+printf "package main\n\nfunc main() {\n  fmt.Println(\"Alou $name\")\n}" >> main.go
+vim main.go
