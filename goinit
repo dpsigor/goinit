@@ -1,21 +1,17 @@
 #!/bin/sh
 if [ $# -eq 0 ]; then
-  printf "Args: project name\n[ -n NAME ] name to greet\n[ -g ] git repo\n" && return 1;
+  printf "Args: project name\n[ -g ] initialize git repo\n" && return 1;
 fi
 project="$1"
 name="man"
 git="false"
 while [ "$2" != "" ]; do
   case $2 in
-  -n)
-      shift
-      name=$2
-      ;;
   -g | --git)
       git="true"
       ;;
   *)
-      printf "Args: project name\n[ -n NAME ] name to greet\n[ -g ] git repo\n" && return 1;
+      printf "Args: project name\n[ -g ] git repo\n" && return 1;
       ;;
   esac
   shift
@@ -26,7 +22,7 @@ if [ "$git" = "true" ]; then
   # "main" is shorter
   git checkout -b main
 fi
-$GOBIN/go mod init example.com/m/v2
+$GOBIN/go mod init github.com/$GITUSER/$project
 touch main.go
 printf "package main\n\nfunc main() {\n  fmt.Println(\"Alou $name\")\n}" >> main.go
 vim main.go
